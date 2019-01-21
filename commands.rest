@@ -1,0 +1,206 @@
+# This is a set of sample REST request to be sent to simulator
+
+POST http://localhost:8443/testControl/v5/commandList HTTP/1.1
+Content-Type: application/json
+
+{
+    "commandList": [
+        {
+            "commandType": "measurementIntervalChange",
+            "measurementInterval": 10
+        }
+    ]
+}
+
+###
+
+POST http://localhost:8443/testControl/v5/commandList HTTP/1.1
+Content-Type: application/json
+
+{
+    "commandList": [
+        {
+            "commandType": "heartbeatIntervalChange",
+            "heartbeatInterval": 15
+        }
+    ]
+}
+
+###
+
+POST http://localhost:8443/testControl/v5/commandList HTTP/1.1
+Content-Type: application/json
+
+{
+    "commandList": [
+        {
+            "commandType": "heartbeatIntervalChange",
+            "heartbeatInterval": 15
+        },
+        {
+            "commandType": "measurementIntervalChange",
+            "measurementInterval": 30
+        }
+    ]
+}
+
+###
+POST http://localhost:8443/api/eventListener/v5 HTTP/1.1"
+Authorization: Basic user pass
+Content-Type: application/json
+
+{
+    "event": {
+        "commonEventHeader": {
+            "domain": "heartbeat",
+            "eventId": "0",
+            "eventName": "heartbeat",
+            "lastEpochMicrosec": 1533116394320464,
+            "priority": "Normal",
+            "reportingEntityName": "test",
+            "sequence": 0,
+            "sourceName": "test",
+            "startEpochMicrosec": 1533116394320464,
+            "version": 3
+        }
+    }
+}
+
+###
+
+POST http://localhost:8443/api/eventListener/v5/eventBatch HTTP/1.1"
+Authorization: Basic user pass
+Content-Type: application/json
+
+{
+    "eventList": [
+        {
+            "commonEventHeader": {
+                "domain": "heartbeat",
+                "eventId": "0",
+                "eventName": "heartbeat",
+                "lastEpochMicrosec": 1533116394320464,
+                "priority": "Normal",
+                "reportingEntityName": "test",
+                "sequence": 0,
+                "sourceName": "test",
+                "startEpochMicrosec": 1533116394320464,
+                "version": 3
+            }
+        },
+        {
+            "commonEventHeader": {
+                "domain": "heartbeat",
+                "eventId": "0",
+                "eventName": "heartbeat",
+                "lastEpochMicrosec": 1533116394320464,
+                "priority": "Normal",
+                "reportingEntityName": "test",
+                "sequence": 0,
+                "sourceName": "test",
+                "startEpochMicrosec": 1533116394320464,
+                "version": 3
+            }
+        }
+    ]
+}
+
+###
+
+POST http://localhost:9095/alerts HTTP/1.1
+Content-Type: application/json
+
+{
+    "receiver": "calm-webhook",
+    "status": "firing",
+    "alerts": [
+        {
+            "status": "firing",
+            "labels": {
+                "id": "12",
+                "system_name": "TEST",
+                "alertname": "Alert instance down",
+                "severity": "critical",
+                "VNFC": "pilot-0",
+                "calm": "true",
+                "event_type": "x2"
+            },
+            "annotations": {
+                "summary": "Instance pilot-0 down",
+                "description": "All targets on pilot-0 have been down for more than 1 minutes. The VNFC is likely to be malfunctionning"
+            }
+        }
+    ]
+}
+
+###
+
+POST http://localhost:8081/alerts HTTP/1.1
+Content-Type: application/json
+
+{
+    "receiver": "calm-webhook",
+    "status": "resolved",
+    "alerts": [
+        {
+            "status": "resolved",
+            "labels": {
+                "id": "12",
+                "system_name": "TEST",
+                "alertname": "Alert instance down",
+                "severity": "critical",
+                "VNFC": "pilot-0",
+                "calm": "true",
+                "event_type": "x2"
+            },
+            "annotations": {
+                "summary": "Instance pilot-0 down",
+                "description": "All targets on pilot-0 have been down for more than 1 minutes. The VNFC is likely to be malfunctionning"
+            }
+        }
+    ]
+}
+
+###
+
+POST http://localhost:8081/alerts HTTP/1.1
+Content-Type: application/json
+
+{
+    "receiver": "calm-webhook",
+    "status": "firing",
+    "alerts": [
+        {
+            "status": "firing",
+            "labels": {
+                "id": "12",
+                "system_name": "TEST",
+                "alertname": "Alert instance down",
+                "severity": "critical",
+                "VNFC": "pilot-0",
+                "calm": "true",
+                "event_type": "x2"
+            },
+            "annotations": {
+                "summary": "Instance pilot-0 down",
+                "description": "All targets on pilot-0 have been down for more than 1 minutes. The VNFC is likely to be malfunctionning"
+            }
+        },
+        {
+            "status": "firing",
+            "labels": {
+                "id": "12",
+                "system_name": "TEST",
+                "alertname": "Alert instance down",
+                "severity": "critical",
+                "VNFC": "pilot-1",
+                "calm": "true",
+                "event_type": "x2"
+            },
+            "annotations": {
+                "summary": "Instance pilot-1 down",
+                "description": "All targets on pilot-1 have been down for more than 1 minutes. The VNFC is likely to be malfunctionning"
+            }
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+# -*- mode: conf -*-
+
+[Unit]
+Description=Bridge between prometheus and ONAP's VES-Collector.
+After=network.target
+
+[Service]
+User=prometheus
+ExecStart=/usr/bin/ves-agent 
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
