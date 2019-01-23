@@ -1,13 +1,11 @@
 /.vscode
-/ves-agent
-/ves-simu
 /data
 *.exe
 *debug.test
-/src/ves-agent/vendor
+/dist
 /build
 /bin
 /pkg
-/src/ves-agent/ves-simu/ui/node_modules
+node_modules
 *.pem
-src/ves-agent/ves-simu/a_main-packr\.go
+a_main-packr.go
