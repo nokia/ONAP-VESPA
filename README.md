@@ -142,6 +142,8 @@ event:
       vnfcs: [lr-pro-0,lr-pro-1] 
   retryInterval: 5s # interval to wait after a timeout before retrying to post the event
   maxMissed: 2 # nb of retry to send an event before switching to the second ves-collector
+alertManager: 
+ bind: localhost:9095 # listening address:port to receive alertManager events
 ```
 
 ### Measurements
