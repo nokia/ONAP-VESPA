@@ -1,3 +1,5 @@
+> **Important notice: The project is currently being imported into Github, and has a number of reworking in progress**
+
 # VES-Agent
 VES-Agent is a service acting as a bridge between prometheus and ONAP's VES-Collector.
 It has 2 main roles :
@@ -61,27 +63,32 @@ The VES-Agent's event loop is the main process goroutine where all the business 
 In case one event (heartbeat, metric or fault) cannot be sent to the VES collector, the ves-agent will switch to a second VES collector (if configured). All the next events will be sent to this new collector while available.
 
 ## Build
-> You need at least **Golang v1.11.4** compiler and the `make` utility. Your `GOPATH` variable must be set, and the `bin/` directory from it must be set in the `PATH` variable
+> Agent, simulator and govel library are tested using **Golang v1.11.5**, while other version may work. Your `GOPATH` variable must be set, and the `bin/` directory from it must be set in the `PATH` variable
 
 1. If needed, setup `HTTP_PROXY` and `HTTPS_PROXY` environment variables
-2. Install tools by running `make tools`
-3. Build with `make build`
+2. Download dependencies by running `go mod download`
+3. Build agent with `go build ./ves-agent`
+4. Build the simulator:
+    1. Install **packr** by running `go get github.com/gobuffalo/packr/packr`
+    2. Run `go generate ./...`
+    3. Run compilation with `go build ./ves-simu`
 
-Optionally, you can
+Resulting executable binaries will be found in the current working dircetory
+ * **ves-agent[.exe]** is the main executable used to run VES-Agent
+ * **ves-simu[.exe]** is a VES collector simulator, mainly usedfor testing
 
-4. Build an installable RPM with `make rpm` (requires `rpmbuild` tool)
-5. Run Unit tests with `make test`
-6. Run static analysis with `make lint`
+## Unit testing
+From repository root directory, run the command `go test -race ./...` to run all the unit tests
 
-But those 3 commands are mostly there to be used in CI, tests and analysis can be run by your IDE
+## Packaging
 
-### Artifacts
-Build artifacts for Linux and Windows are located in `./build/` directory. There are several binaries available
-* **ves-agent** is the main executable used to run VES-Agent
-* **ves-simu** is a VES collector simulator, mainly usedfor testing
-* **gencert** is an alternative to openssl used to generate certificate for the simulator
-* **testurl** is an utility for testing if an URL is reachable
-* Eventually a RPM file for VES-Agent
+**[Goreleaser](https://goreleaser.com/)** is used to package the software for multiple targets.
+
+1. Install **rpmbuild** using your distribution package manager
+2. Install **goreleaser** by following [installation instructions](https://goreleaser.com/install/)
+3. Run `goreleaser --snapshot`
+
+Build artifacts will be located in `./dist/` directory.
 
 ## Configuring
 Configuration of the ves-agent can be set by
@@ -236,4 +243,4 @@ cluster:
 ```
 
 ## Using the VES collector simulator
-Please refer to [VES-Simulator documentation](./src/ves-agent/ves-simu/README.md)
+Please refer to [VES-Simulator documentation](./ves-simu/README.md)

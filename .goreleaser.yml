@@ -1,0 +1,65 @@
+# Check the documentation at http://goreleaser.com
+before:
+  hooks:
+    - go mod download
+    - go get github.com/gobuffalo/packr/packr
+    - go generate ./...
+builds:
+- main: ./ves-agent
+  binary: ves-agent
+  env:
+    - CGO_ENABLED=0
+  goos:
+    - linux
+    - windows
+    - darwin
+    - freebsd
+- main: ./ves-simu
+  binary: ves-simu
+  env:
+    - CGO_ENABLED=0
+  goos:
+    - linux
+    - windows
+    - darwin
+    - freebsd
+nfpm:
+  vendor: Nokia
+  homepage: https://github.com/nokia/ONAP-VESPA
+  maintainer: Pierre-Henri Symoneaux <pierre-henri.symoneaux@nokia.com>
+  description: A Prometheus to ONAP's VES/DCAE gateway
+  license: Apache 2.0
+  formats:
+    - rpm
+    - deb
+  bindir: /usr/bin
+  empty_folders:
+    - /var/lib/ves-agent
+  scripts:
+    preinstall: "scripts/preinstall.sh"
+    postinstall: "scripts/postinstall.sh"
+    preremove: "scripts/preuninstall.sh"
+  files:
+    "scripts/ves-agent.service": "/usr/lib/systemd/system/ves-agent.service"
+  config_files:
+    "ves-agent.yml": "/etc/ves-agent/ves-agent.yml"
+archive:
+  replacements:
+    reebsd: FreeBSD
+    darwin: Darwin
+    linux: Linux
+    windows: Windows
+    386: i386
+    amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
+release:
+  prerelease: auto
