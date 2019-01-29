@@ -1,3 +1,9 @@
+![License](https://img.shields.io/github/license/nokia/ONAP-VESPA.svg)
+[![Build Status](https://travis-ci.org/nokia/ONAP-VESPA.svg?branch=master)](https://travis-ci.org/nokia/ONAP-VESPA)
+[![Coverage](https://img.shields.io/codecov/c/github/nokia/ONAP-VESPA/master.svg)](https://codecov.io/gh/nokia/ONAP-VESPA)
+
+<!-- [![GoDoc](https://godoc.org/github.com/nokia/ONAP-VESPA/govel?status.svg)](https://godoc.org/github.com/nokia/ONAP-VESPA/govel) -->
+
 > **Important notice: The project is currently being imported into Github, and has a number of reworking in progress**
 
 # VES-Agent
