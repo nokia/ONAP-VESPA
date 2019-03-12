@@ -34,8 +34,10 @@ env:
 # services:
 # - docker
 
-script:
+install:
   - go mod download
+
+script:
   - CGO_ENABLED=0 go build ./...
   - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
