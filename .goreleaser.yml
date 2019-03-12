@@ -2,7 +2,7 @@
 before:
   hooks:
     - go mod download
-    - go get github.com/gobuffalo/packr/packr
+    - go get github.com/gobuffalo/packr/packr@v1.21.9
     - go generate ./...
 builds:
 - main: ./ves-agent
