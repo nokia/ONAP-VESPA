@@ -1,7 +1,6 @@
 ![License](https://img.shields.io/github/license/nokia/ONAP-VESPA.svg)
 [![Build Status](https://travis-ci.org/nokia/ONAP-VESPA.svg?branch=master)](https://travis-ci.org/nokia/ONAP-VESPA)
 [![Coverage](https://codecov.io/gh/nokia/ONAP-VESPA/badge.svg?branch=master)](https://codecov.io/gh/nokia/ONAP-VESPA)
-
 [![Release](https://img.shields.io/github/release/nokia/ONAP-VESPA.svg?style=flat)](https://github.com/nokia/ONAP-VESPA/releases/latest)
 
 <!-- [![GoDoc](https://godoc.org/github.com/nokia/ONAP-VESPA/govel?status.svg)](https://godoc.org/github.com/nokia/ONAP-VESPA/govel) -->
