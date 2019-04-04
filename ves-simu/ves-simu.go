@@ -29,6 +29,7 @@ import (
 
 // Simulator parameters
 var (
+	serverRoot    = flag.String("server-root", "", "The path before the /eventListener part of the POST URL")
 	user          = flag.String("user", "user", "The username for authenticating incoming requests")
 	pass          = flag.String("passwd", "pass", "The password for authenticating incoming requests")
 	port          = flag.Int("port", 8443, "The port to bind VES simulator to")
@@ -78,6 +79,11 @@ func main() {
 	if *topic != "" && !strings.HasPrefix(*topic, "/") {
 		*topic = "/" + *topic
 	}
+	*serverRoot = strings.TrimLeft(*serverRoot, "/")
+	if *serverRoot != "" && !strings.HasPrefix(*serverRoot, "/") {
+		*serverRoot = "/" + *serverRoot
+	}
+	*serverRoot = strings.TrimRight(*serverRoot, "/")
 
 	router := initRoutes()
 

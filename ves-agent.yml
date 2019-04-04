@@ -1,5 +1,6 @@
 datadir: ./data
 primaryCollector:
+  # serverRoot: api
   fqdn: localhost
   port: 8443
   # topic: mytopic

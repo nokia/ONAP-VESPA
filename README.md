@@ -113,10 +113,11 @@ caCert: # root certificate content.
 
 ### VES Collectors
 The VES-Agent's connection to VES collector is defined in the `primaryCollector` section of configuration file. The configuration for the backup collector is in the `backupCollector` section. Only the `primaryCollector` section is required.
-Both sections specify how to connect to the collector (adress, port and topic) and the credentials to be used (user name and encrypted password with associated passphrase).  
+Both sections specify how to connect to the collector (adress, port, path before the /eventListener part of the POST URL and topic) and the credentials to be used (user name and encrypted password with associated passphrase).  
 
 ```yaml
 primaryCollector:
+  serverRoot: api
   fqdn: 135.117.116.201
   port: 8443
   topic: mytopic
@@ -124,6 +125,7 @@ primaryCollector:
   password: U2FsdGVkX1/6lYKUMhpyz1IFBtgaE3MVwj2uoj+4PR8=
   passphrase: mypassphrase
 backupCollector:
+  serverRoot: api
   fqdn: 135.117.116.202
   port: 8443
   topic: mytopic

@@ -45,7 +45,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8443/api/eventListener/v5 HTTP/1.1"
+POST http://localhost:8443/eventListener/v5 HTTP/1.1"
 Authorization: Basic user pass
 Content-Type: application/json
 
@@ -68,7 +68,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8443/api/eventListener/v5/eventBatch HTTP/1.1"
+POST http://localhost:8443/eventListener/v5/eventBatch HTTP/1.1"
 Authorization: Basic user pass
 Content-Type: application/json
 
