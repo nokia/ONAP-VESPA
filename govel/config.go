@@ -20,6 +20,7 @@ import "time"
 
 // CollectorConfiguration parameters
 type CollectorConfiguration struct {
+	ServerRoot string `mapstructure:"serverRoot"`
 	FQDN       string `mapstructure:"fqdn"`
 	Port       int    `mapstructure:"port"`
 	Topic      string `mapstructure:"topic"`

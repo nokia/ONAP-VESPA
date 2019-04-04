@@ -44,6 +44,7 @@ func TestEvel(t *testing.T) {
 
 func (s *EvelTestSuite) SetupTest() {
 	s.conf1 = &CollectorConfiguration{
+		ServerRoot: "api",
 		FQDN:     "localhost",
 		Port:     1234,
 		Topic:    "mytopic",

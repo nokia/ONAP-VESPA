@@ -72,6 +72,7 @@ func (s *ConfigurationTestSuite) TestDefaultsParameters() {
 	var conf VESAgentConfiguration
 	err := InitConf(&conf)
 	s.NoError(err)
+	s.Equal("", conf.PrimaryCollector.ServerRoot)
 	s.Equal("localhost", conf.PrimaryCollector.FQDN)
 	s.Equal(8443, conf.PrimaryCollector.Port)
 	s.Equal("", conf.PrimaryCollector.Topic)
@@ -89,6 +90,7 @@ func (s *ConfigurationTestSuite) TestDefaultsParameters() {
 
 func (s *ConfigurationTestSuite) TestYamlParameters() {
 	s.file.WriteString("primaryCollector: " + LineBreak)
+	s.file.WriteString("  serverRoot: api" + LineBreak)
 	s.file.WriteString("  fqdn: 127.0.0.1" + LineBreak)
 	s.file.WriteString("  port: 30000" + LineBreak)
 	s.file.WriteString("  topic: mytopic" + LineBreak)
@@ -121,6 +123,7 @@ func (s *ConfigurationTestSuite) TestYamlParameters() {
 }
 
 func (s *ConfigurationTestSuite) TestEnvParameters() {
+	os.Setenv("VES_PRIMARYCOLLECTOR_SERVERROOT", "api")
 	os.Setenv("VES_PRIMARYCOLLECTOR_FQDN", "127.0.0.1")
 	os.Setenv("VES_PRIMARYCOLLECTOR_PORT", "30000")
 	os.Setenv("VES_PRIMARYCOLLECTOR_TOPIC", "mytopic")
@@ -145,7 +148,7 @@ func (s *ConfigurationTestSuite) TestEnvParameters() {
 }
 
 func (s *ConfigurationTestSuite) TestCLIParameters() {
-	os.Args = append(os.Args, "--PrimaryCollector.FQDN=127.0.0.1", "--PrimaryCollector.Port=30000", "--PrimaryCollector.Topic=mytopic")
+	os.Args = append(os.Args, "--PrimaryCollector.ServerRoot=api", "--PrimaryCollector.FQDN=127.0.0.1", "--PrimaryCollector.Port=30000", "--PrimaryCollector.Topic=mytopic")
 	os.Args = append(os.Args, "--PrimaryCollector.User=user", "--PrimaryCollector.Password=pass")
 	os.Args = append(os.Args, "--BackupCollector.FQDN=127.0.0.2", "--BackupCollector.Port=40000", "--BackupCollector.Topic=mytopic2")
 	os.Args = append(os.Args, "--BackupCollector.User=user2", "--BackupCollector.Password=pass2")
@@ -156,7 +159,7 @@ func (s *ConfigurationTestSuite) TestCLIParameters() {
 }
 
 func (s *ConfigurationTestSuite) TestCLIShortParameters() {
-	os.Args = append(os.Args, "-f=127.0.0.1", "-p=30000", "-t=mytopic")
+	os.Args = append(os.Args, "--PrimaryCollector.ServerRoot=api", "-f=127.0.0.1", "-p=30000", "-t=mytopic")
 	os.Args = append(os.Args, "-u=user", "-k=pass")
 	os.Args = append(os.Args, "--BackupCollector.FQDN=127.0.0.2", "--BackupCollector.Port=40000", "--BackupCollector.Topic=mytopic2")
 	os.Args = append(os.Args, "--BackupCollector.User=user2", "--BackupCollector.Password=pass2")
@@ -189,11 +192,13 @@ func checkAll(s *ConfigurationTestSuite, cli bool) {
 	var conf VESAgentConfiguration
 	err := InitConf(&conf)
 	s.NoError(err)
+	s.Equal("api", conf.PrimaryCollector.ServerRoot)
 	s.Equal("127.0.0.1", conf.PrimaryCollector.FQDN)
 	s.Equal(30000, conf.PrimaryCollector.Port)
 	s.Equal("mytopic", conf.PrimaryCollector.Topic)
 	s.Equal("user", conf.PrimaryCollector.User)
 	s.Equal("pass", conf.PrimaryCollector.Password)
+	s.Equal("", conf.BackupCollector.ServerRoot)
 	s.Equal("127.0.0.2", conf.BackupCollector.FQDN)
 	s.Equal(40000, conf.BackupCollector.Port)
 	s.Equal("mytopic2", conf.BackupCollector.Topic)

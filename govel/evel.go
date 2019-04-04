@@ -59,7 +59,7 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 	var tlsConfig tls.Config
 	var httpScheme string
 
-	topic := collector.Topic
+	topic := strings.TrimLeft(collector.Topic, "/")
 	if topic != "" && !strings.HasPrefix(topic, "/") {
 		topic = "/" + topic
 	}
@@ -99,11 +99,15 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 		vesPassword = strings.TrimSuffix(string(out), "\n")
 	}
 
-	// baseURL := fmt.Sprintf("http://%s:%s@%s:%d/api/eventListener/v5", user, pass, addr, port)
+	path := strings.TrimLeft(collector.ServerRoot, "/")
+	if path != "" && !strings.HasPrefix(path, "/") {
+		path = "/" + path
+	}
+	path = strings.TrimRight(path, "/") + "/eventListener/v5"
 	baseURL := url.URL{
 		Scheme: httpScheme,
 		Host:   fmt.Sprintf("%s:%d", collector.FQDN, collector.Port),
-		Path:   "/api/eventListener/v5",
+		Path:   path,
 		//TODO: User and/or password may be optional ?
 		User: url.UserPassword(collector.User, vesPassword),
 	}

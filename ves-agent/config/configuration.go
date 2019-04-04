@@ -38,12 +38,14 @@ var (
 )
 
 func setFlags(flagSet *pflag.FlagSet) {
+	flagSet.String("PrimaryCollector.ServerRoot", "", "path before the /eventListener part of the POST URL")
 	flagSet.StringP("PrimaryCollector.FQDN", "f", "localhost", "VES Collector FQDN")
 	flagSet.IntP("PrimaryCollector.Port", "p", 8443, "VES Collector Port")
 	flagSet.StringP("PrimaryCollector.Topic", "t", "", "VES Collector Topic")
 	flagSet.StringP("PrimaryCollector.User", "u", "", "VES Username")
 	flagSet.StringP("PrimaryCollector.Password", "k", "", "VES Password")
 	flagSet.String("PrimaryCollector.PassPhrase", "", "VES PassPhrase")
+	flagSet.String("BackupCollector.ServerRoot", "", "path before the /eventListener part of the POST URL")
 	flagSet.String("BackupCollector.FQDN", "", "VES Collector FQDN")
 	flagSet.Int("BackupCollector.Port", 0, "VES Collector Port")
 	flagSet.String("BackupCollector.Topic", "", "VES Collector Topic")

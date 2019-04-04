@@ -42,11 +42,12 @@ func TestCluster(t *testing.T) {
 
 func (s *ClusterTestSuite) SetupTest() {
 	s.conf1 = &CollectorConfiguration{
-		FQDN:     "localhost", 
-		Port:     1234,
-		Topic:    "mytopic",
-		User:     "myuser",
-		Password: "mypassword",
+		ServerRoot: "api",
+		FQDN:       "localhost",
+		Port:       1234,
+		Topic:      "mytopic",
+		User:       "myuser",
+		Password:   "mypassword",
 	}
 	s.conf2 = &CollectorConfiguration{
 		FQDN:     "localhost2",
@@ -75,7 +76,7 @@ func (s *ClusterTestSuite) TestInitialization() {
 	}
 	s.Equal(cluster.primaryVES, cluster.activVES)
 	s.Equal("http://myuser:mypassword@localhost:1234/api/eventListener/v5", cluster.primaryVES.baseURL.String())
-	s.Equal("http://myuser2:mypassword2@localhost2:5678/api/eventListener/v5", cluster.backupVES.baseURL.String())
+	s.Equal("http://myuser2:mypassword2@localhost2:5678/eventListener/v5", cluster.backupVES.baseURL.String())
 	s.Equal(1, cluster.maxMissed)
 	s.Equal(time.Second, cluster.retryInterval)
 }
@@ -107,7 +108,7 @@ unwD+TffUa2jWGiKGjohv2u18i+Gyw==
 	}
 	s.Equal(cluster.primaryVES, cluster.activVES)
 	s.Equal("https://myuser:mypassword@localhost:1234/api/eventListener/v5", cluster.primaryVES.baseURL.String())
-	s.Equal("https://myuser2:mypassword2@localhost2:5678/api/eventListener/v5", cluster.backupVES.baseURL.String())
+	s.Equal("https://myuser2:mypassword2@localhost2:5678/eventListener/v5", cluster.backupVES.baseURL.String())
 	s.Equal(1, cluster.maxMissed)
 	s.Equal(time.Second, cluster.retryInterval)
 }
@@ -272,13 +273,13 @@ func (s *ClusterTestSuite) TestSwitch() {
 	cluster.switchCollector()
 	s.Equal(cluster.activVES, cluster.backupVES)
 	s.Equal("http://myuser:mypassword@localhost:1234/api/eventListener/v5", cluster.primaryVES.baseURL.String())
-	s.Equal("http://myuser2:mypassword2@localhost2:5678/api/eventListener/v5", cluster.backupVES.baseURL.String())
+	s.Equal("http://myuser2:mypassword2@localhost2:5678/eventListener/v5", cluster.backupVES.baseURL.String())
 	s.Equal(1, cluster.maxMissed)
 	s.Equal(time.Second, cluster.retryInterval)
 	cluster.switchCollector()
 	s.Equal(cluster.primaryVES, cluster.activVES)
 	s.Equal("http://myuser:mypassword@localhost:1234/api/eventListener/v5", cluster.primaryVES.baseURL.String())
-	s.Equal("http://myuser2:mypassword2@localhost2:5678/api/eventListener/v5", cluster.backupVES.baseURL.String())
+	s.Equal("http://myuser2:mypassword2@localhost2:5678/eventListener/v5", cluster.backupVES.baseURL.String())
 }
 
 func (s *ClusterTestSuite) TestSwitchEmptyBackup() {

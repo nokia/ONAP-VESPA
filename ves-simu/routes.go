@@ -60,12 +60,12 @@ func initRoutes() *mux.Router {
 		Handler(http.RedirectHandler("./doc/", http.StatusMovedPermanently))
 
 	router.Methods(http.MethodPost).
-		Path("/api/eventListener/v5"+*topic).
+		Path(*serverRoot+"/eventListener/v5"+*topic).
 		Headers("Content-Type", "application/json").
 		Handler(errorWrapper(handlePostEvent))
 
 	router.Methods(http.MethodPost).
-		Path("/api/eventListener/v5/eventBatch").
+		Path(*serverRoot+"/eventListener/v5/eventBatch").
 		Headers("Content-Type", "application/json").
 		Handler(errorWrapper(handlePostBatch))
 
