@@ -16,7 +16,7 @@ tags:
 
 paths:
 
-  /api/eventListener/v5/:
+  /eventListener/v5/:
     summary: VES-Collector event API
     post:
       summary: Publish a single event
@@ -85,7 +85,7 @@ paths:
         500:
           description: The server encountered an internal error or timed out; please retry (general catch-all server-side error).HTTP 500 errors may be mapped to SVC1000 (no server resources).
 
-  /api/eventListener/v5/eventBatch:
+  /eventListener/v5/eventBatch:
     summary: VES-Collector batch API
     post:
       summary: Publish a batch of multiple events
