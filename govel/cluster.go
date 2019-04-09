@@ -56,17 +56,19 @@ func NewCluster(prim *CollectorConfiguration, back *CollectorConfiguration, even
 	var errB error
 	if back.FQDN != "" {
 		backup, errB = NewEvel(back, event, cacert)
+	} else {
+		log.Debugf("Ignore empty backup collector.")
 	}
 	activ := primary
-	if errP != nil {
-		log.Warn("Cannot initialize primary VES connection: ", errP.Error())
+	if errP != nil || primary == nil {
 		if errB != nil || backup == nil {
-			return &Cluster{}, errors.New("Cannot initialize any of the VES connection : " + errP.Error())
+			return &Cluster{}, errors.New("Cannot initialize any of the VES connection")
 		}
+		log.Warn("Cannot initialize primary VES connection.")
 		activ = backup
 	} else {
-		if errB != nil {
-			log.Warn("Cannot initialize backup VES connection: ", errB.Error())
+		if errB != nil || backup == nil {
+			log.Warn("Cannot initialize backup VES connection.")
 		}
 	}
 	return CreateCluster(activ, primary, backup, event.MaxMissed, event.RetryInterval)
