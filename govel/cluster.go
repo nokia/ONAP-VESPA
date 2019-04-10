@@ -56,8 +56,6 @@ func NewCluster(prim *CollectorConfiguration, back *CollectorConfiguration, even
 	var errB error
 	if back.FQDN != "" {
 		backup, errB = NewEvel(back, event, cacert)
-	} else {
-		log.Debugf("Ignore empty backup collector.")
 	}
 	activ := primary
 	if errP != nil || primary == nil {

@@ -62,6 +62,15 @@ func (s *ConfigurationTestSuite) TestMissingParameters() {
 		err = InitConf(&conf)
 	}
 	s.NoError(err)
+	s.file.WriteString("BackupCollector.FQDN" + ": " + "default" + LineBreak)
+	err = InitConf(&conf)
+	s.Error(err)
+	s.file.WriteString("BackupCollector.User" + ": " + "default" + LineBreak)
+	err = InitConf(&conf)
+	s.Error(err)
+	s.file.WriteString("BackupCollector.Password" + ": " + "default" + LineBreak)
+	err = InitConf(&conf)
+	s.NoError(err)
 }
 
 func (s *ConfigurationTestSuite) TestDefaultsParameters() {

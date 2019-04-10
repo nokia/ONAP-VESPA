@@ -32,7 +32,7 @@ import (
 
 // List of required configuration parameters
 var (
-	requiredConfs = []string{"PrimaryCollector.User", "PrimaryCollector.Password"}
+	requiredConfs = []string{"PrimaryCollector.FQDN", "PrimaryCollector.User", "PrimaryCollector.Password"}
 	configName    = "ves-agent"
 	configPaths   = []string{"/etc/ves-agent/", "."}
 )
@@ -108,6 +108,14 @@ func InitConf(conf *VESAgentConfiguration) error {
 	for _, v := range requiredConfs {
 		if !viper.IsSet(v) || viper.GetString(v) == "" {
 			return errors.New("Missing required configuration parameter: " + v)
+		}
+	}
+	if viper.IsSet("BackupCollector.FQDN") && viper.GetString("BackupCollector.FQDN") != "" {
+		if !viper.IsSet("BackupCollector.User") || viper.GetString("BackupCollector.User") == "" {
+			return errors.New("Missing User for BackupCollector")
+		}
+		if !viper.IsSet("BackupCollector.Password") || viper.GetString("BackupCollector.Password") == "" {
+			return errors.New("Missing Password for BackupCollector")
 		}
 	}
 

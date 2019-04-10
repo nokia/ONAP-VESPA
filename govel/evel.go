@@ -92,17 +92,18 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 		log.Debugf("Use clear password")
 	} else {
 		log.Debugf("Use encrypted password")
-		out, errFPM := exec.Command(fpmPassword, "de", vesPassword, vesPassPhrase).Output()
+	    out, errFPM := exec.Command(fpmPassword, "de", vesPassword, vesPassPhrase).Output()
 		if errFPM != nil {
 			log.Warn("Failed to decrypt ves password.")
 			return nil, errFPM
 		}
 		vesPassword = strings.TrimSuffix(string(out), "\n")
-		if collector.Password!= "" && vesPassword == ""  {
+		if vesPassword == ""  {
 			log.Warn("Failed to decrypt ves password.")
 			return nil, errors.New("Failed to decrypt ves password")
 		}
-	}
+	} 
+	
 
 	path := strings.TrimLeft(collector.ServerRoot, "/")
 	if path != "" && !strings.HasPrefix(path, "/") {

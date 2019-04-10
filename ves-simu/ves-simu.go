@@ -46,6 +46,9 @@ var (
 
 func initialize() {
 	flag.Parse()
+	if *user == "" || *pass == "" {
+		log.Fatalf("Empty credentials are not supported")
+	}
 	var formatter log.Formatter = &log.TextFormatter{
 		FullTimestamp: true,
 	}
