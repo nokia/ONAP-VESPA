@@ -9,3 +9,4 @@
 node_modules
 *.pem
 a_main-packr.go
+coverage.txt
