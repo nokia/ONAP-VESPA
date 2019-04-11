@@ -17,6 +17,7 @@
 package govel
 
 import (
+	"errors"
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
@@ -88,16 +89,21 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 	vesPassword := collector.Password
 	vesPassPhrase := collector.PassPhrase
 	if _, err := os.Stat(fpmPassword); os.IsNotExist(err) {
-		log.Infof("fpm-password not installed: uses clear password")
+		log.Debugf("Use clear password")
 	} else {
-		log.Infof("fpm-password exists: uses encrypted password")
-		out, err := exec.Command(fpmPassword, "de", vesPassword, vesPassPhrase).Output()
-		if err != nil {
-			log.Error("Cannot decrypt ves password. not possible to configure VES client")
-			return nil, err
+		log.Debugf("Use encrypted password")
+		out, errFPM := exec.Command(fpmPassword, "de", vesPassword, vesPassPhrase).Output()
+		if errFPM != nil {
+			log.Warn("Failed to decrypt ves password.")
+			return nil, errFPM
 		}
 		vesPassword = strings.TrimSuffix(string(out), "\n")
-	}
+		if vesPassword == ""  {
+			log.Warn("Failed to decrypt ves password.")
+			return nil, errors.New("Failed to decrypt ves password")
+		}
+	} 
+	
 
 	path := strings.TrimLeft(collector.ServerRoot, "/")
 	if path != "" && !strings.HasPrefix(path, "/") {
@@ -108,7 +114,6 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 		Scheme: httpScheme,
 		Host:   fmt.Sprintf("%s:%d", collector.FQDN, collector.Port),
 		Path:   path,
-		//TODO: User and/or password may be optional ?
 		User: url.UserPassword(collector.User, vesPassword),
 	}
 
