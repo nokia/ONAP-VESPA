@@ -92,7 +92,7 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 		log.Debugf("Use clear password")
 	} else {
 		log.Debugf("Use encrypted password")
-	    out, errFPM := exec.Command(fpmPassword, "de", vesPassword, vesPassPhrase).Output()
+		out, errFPM := exec.Command(fpmPassword, "de", vesPassword, vesPassPhrase).Output()
 		if errFPM != nil {
 			log.Warn("Failed to decrypt ves password.")
 			return nil, errFPM
@@ -114,7 +114,6 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 		Scheme: httpScheme,
 		Host:   fmt.Sprintf("%s:%d", collector.FQDN, collector.Port),
 		Path:   path,
-		//TODO: User and/or password may be optional ?
 		User: url.UserPassword(collector.User, vesPassword),
 	}
 
