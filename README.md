@@ -5,7 +5,7 @@
 
 <!-- [![GoDoc](https://godoc.org/github.com/nokia/ONAP-VESPA/govel?status.svg)](https://godoc.org/github.com/nokia/ONAP-VESPA/govel) -->
 
-> **Important notice: The project is currently being imported into Github, and has a number of reworking in progress**
+> **Important notice:** The project is currently being imported into Github, and has a number of reworking in progress
 
 # VES-Agent
 VES-Agent is a service acting as a bridge between prometheus and ONAP's VES-Collector.
@@ -22,7 +22,7 @@ The replicated state is assured to be consistent accross the cluster
 
 ## Architecture
 
-![Architecture schema](./doc/VES-Agent.png)
+![Architecture schema](./doc/images/VES-Agent.png)
 
 ### Event Loop
 The VES-Agent's event loop is the main process goroutine where all the business logic happen. It waits on multiple input channels for an event to occure. When an event arrives, specific business logic is executed depending on its type and source. One event has to be considered differently: Raft cluster leadership change. This event is triggered when the process gain or loose cluster leadership, and is used as a circuit breaker for the event-loop. When process is not the leader, no business logic will happen.
@@ -222,7 +222,7 @@ rules:
               expr: '{{.labels.FISY}}'
 ```
 
-![Mapping explained](doc/VES-Agent-Mapping-Rules.png)
+![Mapping explained](doc/images/VES-Agent-Mapping-Rules.png)
 
 ### Heartbeat
 Measurements are configured in the `heartbeat` section of configuration file.
@@ -250,6 +250,9 @@ cluster:
     - id: "3"
       address: "127.0.0.3:6737"
 ```
+
+### Example
+Check the full configuretion examples [here](./doc/examples/README.md)
 
 ## Using the VES collector simulator
 Please refer to [VES-Simulator documentation](./ves-simu/README.md)

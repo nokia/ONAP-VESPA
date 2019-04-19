@@ -106,7 +106,7 @@ func NewVESClient(baseURL url.URL, tlsConfig *tls.Config, schema *schema.JSONSch
 }
 
 // ValidateWithSchema validates the provided data with the client schema.
-// If no schema was provided, then validation ist silently skipped
+// If no schema was provided, then validation is silently skipped
 func (ves *VESClient) ValidateWithSchema(data interface{}) error {
 	if ves.schema != nil {
 		log.Debug("Validating request payload with schema before sending it")
