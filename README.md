@@ -252,7 +252,7 @@ cluster:
 ```
 
 ### Example
-Check the full configuretion examples [here](./doc/examples/README.md)
+Check the full configuration examples [here](./doc/examples/README.md)
 
 ## Using the VES collector simulator
 Please refer to [VES-Simulator documentation](./ves-simu/README.md)

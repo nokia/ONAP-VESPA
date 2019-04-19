@@ -1,6 +1,6 @@
 # Configuration example
 
-This folder holds an basic example of how to configure **VESPA** and **Prometheus** with **Node Exporter** and **AlertManager**.
+This folder holds a basic example of how to configure **VESPA** and **Prometheus** with **Node Exporter** and **AlertManager**.
 
 The example environment has 3 Virtual Machines (vespa-demo-1, vespa-demo-2 and vespa-demo-3) which can be seen as VNFC instances belonging to the same VNF named vespa-demo.
 4 processes are installed on them:
