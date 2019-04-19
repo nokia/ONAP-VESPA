@@ -1,0 +1,17 @@
+groups:
+- name: pilot/processing alert rules
+  rules:
+  - alert: FileSystemAlert
+    expr:  avg by(mountpoint, instance, VNFC) (100 * ((node_filesystem_size_bytes - node_filesystem_free_bytes) / (node_filesystem_size_bytes - node_filesystem_free_bytes + node_filesystem_avail_bytes))) > 10
+    labels:
+      severity: Minor
+      id: 302
+      event_type: x4
+      probable_cause: 351
+    annotations:
+      service: "FileSystemSupervision_{{$labels.mountpoint}}={{$value}}"
+      summary: "Filesystem {{$labels.mountpoint}} usage on instance {{$labels.VNFC}}"
+      description: "File system almost full"
+      clearAlertName: "FileSystemOccupancyReturnedUnderLowThreshold"
+      clearDescription: "File system occupancy returned under low threshold"
+      aaiMapping: "FileSystemName_ObservedThreshold"

@@ -1,0 +1,65 @@
+datadir: /var/lib/ves-agent/data
+primaryCollector: # Connection info to primary VES collector
+  fqdn: 135.238.248.245
+  port: 8443
+  user: user
+  password: pass
+heartbeat:
+  defaultInterval: 60s
+measurement:
+  domainAbbreviation: Mvfs
+  defaultInterval: 300s
+  maxBufferingDuration: 1h
+  prometheus: # Connection info to prometheus
+    address: http://localhost:9090
+    timeout: 30s
+    keepalive: 30s
+    rules: # Rules to map metrics from prometheus to VES format
+      defaults:
+        vmId: '{{.labels.VNFC}}'          
+          
+      metrics:
+        - target: CPUUsageArray.PercentUsage
+          expr: 100-sum by(instance, cpu, VNFC) (irate(node_cpu_seconds_total{mode=~"idle|iowait"}[5m]))*100
+          labels:
+            - name: CPUIdentifier
+              expr: "{{.labels.cpu}}"
+
+        - target: MemoryUsageArray.MemoryUsed
+          expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / 1024
+          labels:
+            - name: VMIdentifier
+              expr: '{{.vmId}}'
+
+        - target: AdditionalObjects
+          expr: avg by(mountpoint, instance, VNFC) (100 * ((node_filesystem_size_bytes - node_filesystem_free_bytes) / (node_filesystem_size_bytes - node_filesystem_free_bytes + node_filesystem_avail_bytes)))
+          object_name: additionalFilesystemCounters
+          object_instance: percentFilesystemUsage
+          object_keys:
+            - name: filesystemName
+              expr: '{{.labels.mountpoint}}'
+event:
+  vnfName: vespa-demo
+  # reportingEntityName: dpa2bhsxp5001vm001oam001
+  reportingEntityID: 1af5bfa9-40b4-4522-b045-40e54f0310fc
+  maxSize: 2000000
+  nfNamingCode: hsxp
+  nfcNamingCodes:
+    - type: oam
+      vnfcs: [vespa-demo-1, vespa-demo-2, vespa-demo-3]
+  retryInterval: 5s
+  maxMissed: 2
+alertManager:
+  bind: localhost:9095
+cluster: # Clustering options for High-Availabilty
+  debug: true
+  displayLogs: false
+  id: "2" # This node is the node with ID 2. This is the only changing parameter for each VM
+  peers: # List of all nodes, including this one
+    - id: "1"
+      address: "vespa-demo-1:6737"
+    - id: "2"
+      address: "vespa-demo-2:6737"
+    - id: "3"
+      address: "vespa-demo-3:6737"
+debug: true
