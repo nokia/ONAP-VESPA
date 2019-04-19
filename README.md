@@ -117,10 +117,10 @@ Both sections specify how to connect to the collector (adress, port, path before
 
 ```yaml
 primaryCollector:
-  serverRoot: api
+  serverRoot: api   # Optional, add "/api/" as the URL path prefix
   fqdn: 135.117.116.201
   port: 8443
-  topic: mytopic
+  topic: mytopic  # Optional, add "/mytopic/" as the URL path suffix
   user: user
   password: U2FsdGVkX1/6lYKUMhpyz1IFBtgaE3MVwj2uoj+4PR8=
   passphrase: mypassphrase
