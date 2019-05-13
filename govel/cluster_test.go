@@ -100,8 +100,12 @@ zZHHwxf1sPBVSx+pKQAPc676TrH8PByW6cO2juCwUYKLjMtfBfT60pCoNbUSi/3V
 LAaDIw5mTQ6JrQc8OYazF7j0LZLro/8BC0A+24NErwB/KwxfQvMOGmHrT7gstNOu
 unwD+TffUa2jWGiKGjohv2u18i+Gyw==
 -----END CERTIFICATE-----`
+	c1 := *s.conf1
+	c2 := *s.conf2
+	c1.Secure = true
+	c2.Secure = true
 
-	cluster, err := NewCluster(s.conf1, s.conf2, s.event, cacert)
+	cluster, err := NewCluster(&c1, &c2, s.event, cacert)
 	s.NoError(err)
 	if !s.NotNil(cluster) {
 		s.FailNow("Could not initialize evel")

@@ -64,11 +64,17 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 	if topic != "" && !strings.HasPrefix(topic, "/") {
 		topic = "/" + topic
 	}
-	if len(cacert) == 0 {
-		httpScheme = "http"
-		log.Infof("no certificate present: Initializing evel communication to collector without tls ")
-		//client = NewVESClient(baseURL, nil, schema.V2841(), event.MaxSize)
+	
+	if collector.Secure {
+		log.Infof("Using HTTPS")
+		httpScheme = "https"
 	} else {
+		log.Warnf("Insecure VES link, using HTTP")
+		httpScheme = "http"
+		//client = NewVESClient(baseURL, nil, schema.V2841(), event.MaxSize)
+	} 
+	if collector.Secure && len(cacert) > 0 {
+		log.Info("Using provided CA certificate")
 		caBytes := []byte(cacert)
 		rootCa := x509.NewCertPool()
 		if !rootCa.AppendCertsFromPEM(caBytes) {

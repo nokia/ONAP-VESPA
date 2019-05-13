@@ -23,6 +23,7 @@ type CollectorConfiguration struct {
 	ServerRoot string `mapstructure:"serverRoot"`
 	FQDN       string `mapstructure:"fqdn"`
 	Port       int    `mapstructure:"port"`
+	Secure     bool   `mapstructure:"secure"`
 	Topic      string `mapstructure:"topic"`
 	User       string `mapstructure:"user"`
 	Password   string `mapstructure:"password"`
