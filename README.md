@@ -120,6 +120,7 @@ primaryCollector:
   serverRoot: api   # Optional, add "/api/" as the URL path prefix
   fqdn: 135.117.116.201
   port: 8443
+  secure: true
   topic: mytopic  # Optional, add "/mytopic/" as the URL path suffix
   user: user
   password: U2FsdGVkX1/6lYKUMhpyz1IFBtgaE3MVwj2uoj+4PR8=
@@ -128,6 +129,7 @@ backupCollector:
   serverRoot: api
   fqdn: 135.117.116.202
   port: 8443
+  secure: true
   topic: mytopic
   user: user
   password: U2FsdGVkX1/6lYKUMhpyz1IFBtgaE3MVwj2uoj+4PR8=

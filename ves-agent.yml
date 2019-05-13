@@ -3,6 +3,7 @@ primaryCollector:
   # serverRoot: api
   fqdn: localhost
   port: 8443
+  secure: true
   # topic: mytopic
   user: user
   password: pass

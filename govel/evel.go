@@ -64,23 +64,22 @@ func NewEvel(collector *CollectorConfiguration, event *EventConfiguration, cacer
 	if topic != "" && !strings.HasPrefix(topic, "/") {
 		topic = "/" + topic
 	}
-	if len(cacert) == 0 {
-		httpScheme = "http"
-		log.Infof("no certificate present: Initializing evel communication to collector without tls ")
-		//client = NewVESClient(baseURL, nil, schema.V2841(), event.MaxSize)
+	
+	if collector.Secure {
+		log.Infof("Secure VES link using HTTPS")
+		httpScheme = "https"
 	} else {
+		log.Warnf("Insecure VES link using HTTP")
+		httpScheme = "http"
+	} 
+	if collector.Secure && len(cacert) > 0 {
+		log.Info("Using provided CA certificate")
 		caBytes := []byte(cacert)
 		rootCa := x509.NewCertPool()
 		if !rootCa.AppendCertsFromPEM(caBytes) {
-			log.Error("Cannot load root CA. PEM not valid: non tls connection will be configured")
-			httpScheme = "http"
-			//client = NewVESClient(baseURL, nil, schema.V2841(), event.MaxSize)
-			log.Infof("no certificate valid: Initializing evel communication to collector without tls ")
+			log.Error("Cannot load root CA. PEM not valid")
 		} else {
-			httpScheme = "https"
 			tlsConfig.RootCAs = rootCa
-			//client = NewVESClient(baseURL, &tlsConfig, schema.V2841(), event.MaxSize)
-			log.Infof("Initializing evel communication to collector with tls ")
 		}
 	}
 
